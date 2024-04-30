@@ -17,7 +17,6 @@ import { SnackbarComponent } from '../../ui/snackbar/snackbar.component';
 import { SpinnerComponent } from '../../ui/spinner/spinner.component';
 import { Project } from '../../project/model/Project';
 import { ProjectPageComponent } from '../../project/project-page/project-page.component';
-import { ActivatedRoute } from '@angular/router';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { featherPlusCircle } from '@ng-icons/feather-icons';
 import { ModalService } from '../../utils/modal/modal-service';
@@ -47,7 +46,6 @@ export class TaskListPageComponent implements OnInit {
   @Input() projectId?: string;
   listState: ComponentListState<Task> = { state: 'IDLE' };
   private tasksService = inject(TaskService);
-
   private modalSerive = inject(ModalService);
 
   project: Project[] = [];
@@ -100,6 +98,8 @@ export class TaskListPageComponent implements OnInit {
           state: LIST_STATE_VALUE.SUCCESS,
           results: tasks.concat(task),
         };
+
+        this.modalSerive.closeModal();
       },
       error: (err) => {
         this.snackBarMessage = err.message;

@@ -21,6 +21,7 @@
           Add new awesome todo
         </h3>
 
+        {{ task() | json }}
         <button
           (click)="modalService.closeModal()"
           type="button"

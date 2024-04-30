@@ -6,6 +6,7 @@ import {
   OnInit,
   Output,
   SimpleChanges,
+  computed,
   inject,
 } from '@angular/core';
 import {
@@ -20,6 +21,7 @@ import { Project } from '../../project/model/Project';
 import { ProjectService } from '../../project/data-access/project.service';
 import { ModalService } from '../../utils/modal/modal-service';
 import { Task } from '../../task/model/Task';
+import { LoggerToken } from '@ng-icons/core/lib/providers/features/logger';
 
 type TasksListFiltersForm = FormGroup<{
   name: FormControl<string>;
@@ -40,19 +42,24 @@ export type TasksListFiltersFormValue = ReturnType<
   styleUrl: './modal.component.scss',
   viewProviders: [provideIcons({ featherPlusCircle })],
 })
-export class ModalComponent implements OnInit, OnChanges {
+export class ModalComponent implements OnInit {
   private formBuilder = inject(NonNullableFormBuilder);
   private projectService = inject(ProjectService);
 
   modalService = inject(ModalService);
-  task: Task | undefined;
+
+  task = computed(() => this.modalService.task());
 
   @Output() addTask = new EventEmitter<TasksListFiltersFormValue>();
   @Output() addProject = new EventEmitter();
   @Output() editTask = new EventEmitter<TasksListFiltersFormValue>();
 
+  //TOOD how to pass properties from task into form like name/description/etc. Neccessary in edit mode
+  taskResult = this.task();
+  name = this.taskResult !== null ? this.taskResult.name : 'test';
+
   form: TasksListFiltersForm = this.formBuilder.group({
-    name: this.formBuilder.control<string>(''),
+    name: this.formBuilder.control<string>(this.name),
     project: this.formBuilder.control<string>(''),
     description: this.formBuilder.control<string>(''),
     projectId: this.formBuilder.control<string>('1'),
@@ -64,13 +71,7 @@ export class ModalComponent implements OnInit, OnChanges {
     this.getAllProject();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
-  }
-
   onSubmit(editMode: boolean) {
-    console.log(this.form.getRawValue());
-
     if (editMode) {
       this.editTask.emit(this.form.getRawValue());
     }

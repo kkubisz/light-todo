@@ -7,7 +7,7 @@ import { Task } from '../../task/model/Task';
 })
 export class ModalService {
   modalState: boolean = false;
-  task: WritableSignal<Task[]> = signal([]);
+  task: WritableSignal<Task | null> = signal(null);
   editMode: boolean = false;
 
   $value = this.task.asReadonly();
@@ -17,7 +17,7 @@ export class ModalService {
     this.editMode = editMode;
 
     if (task) {
-      this.task.update((test) => [task, ...test]);
+      this.task.set(task);
     }
   }
   closeModal() {

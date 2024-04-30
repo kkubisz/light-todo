@@ -31,7 +31,7 @@
       "id": 2,
       "projectId": 2,
       "name": "Learn components and more stuff",
-      "done": false,
+      "done": true,
       "createdAt": 1693042949144,
       "updatedAt": 1701512662476,
       "urgent": true
@@ -81,19 +81,11 @@
       "urgent": true
     },
     {
-      "name": "New model",
-      "description": "asdasd",
-      "done": true,
-      "createdAt": 1713869843961,
-      "projectId": 2,
-      "id": 8
-    },
-    {
-      "name": "",
-      "description": "",
+      "name": "Get new job",
+      "description": "test",
       "done": false,
-      "createdAt": 1713898353570,
-      "projectId": 0,
+      "createdAt": 1714472523150,
+      "projectId": 1,
       "id": 9
     }
   ]

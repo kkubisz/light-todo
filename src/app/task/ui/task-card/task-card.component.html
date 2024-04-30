@@ -1,0 +1,35 @@
+<div
+  class="flex flex-col mb-4 p-4 border-gray-800 shadow-md hover:shodow-lg rounded-2xl cursor-pointer transition ease-in duration-200 transform hover:scale-105"
+  [class.bg-gray-600]="task.done"
+  [class.bg-gray-800]="!task.done"
+  (click)="updateTask()"
+>
+  <div class="flex items-center justify-between">
+    <div class="flex items-center mr-auto">
+      <div class="flex flex-col ml-3">
+        <div class="font-medium leading-none text-gray-100">
+          {{ task.name }}
+        </div>
+        <p class="text-sm text-gray-500 leading-none mt-1">
+          {{ task.description }}
+        </p>
+        <p class="text-sm text-gray-500 italic leading-none mt-1">
+          {{ task.createdAt | date }}
+        </p>
+      </div>
+    </div>
+    <ng-icon
+      (click)="editTask($event, task)"
+      class="flex-no-shrink text-xs font-medium tracking-wider text-gray-400 hover:text-green-400 transition ease-in duration-300 mr-2"
+      name="featherEdit3"
+    >
+    </ng-icon>
+
+    <ng-icon
+      name="featherDelete"
+      (click)="removeTask($event)"
+      class="flex-no-shrink text-xs font-medium tracking-wider text-gray-400 hover:text-green-100 transition ease-in duration-100 ml-2"
+    >
+    </ng-icon>
+  </div>
+</div>

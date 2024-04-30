@@ -1,0 +1,12 @@
+<h3 class="text-xl text-gray-100 mb-5">Projects</h3>
+
+<div class="grid grid-cols-12 gap-4">
+  @for (item of this.project; track item.id) {
+
+  <app-project-card
+    [project]="item"
+    [taskCount]="this.taskCountByProjectId"
+    class="col-span-12 sm:col-span-4"
+  ></app-project-card>
+  }
+</div>

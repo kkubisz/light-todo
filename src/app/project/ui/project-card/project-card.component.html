@@ -1,0 +1,9 @@
+<div
+  class="p-4 relative bg-gray-800 border border-gray-800 shadow-lg rounded-2xl"
+>
+  <div class="text-sm text-gray-500 font-medium leading-8 mt-5">
+    @switch (count) { @case (undefined) {No task} @case (1) { {{ count }} task }
+    @default { {{ count }} tasks } }
+  </div>
+  <div class="text-cl text-gray-100">{{ project.name }}</div>
+</div>

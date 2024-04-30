@@ -1,0 +1,14 @@
+<div class="max-w-3xl w-full mx-auto grid gap-4 grid-cols-1">
+  <div class="flex flex-col sticky top-0 z-10">
+    <div class="bg-gray-800 border border-gray-800 shadow-lg rounded-2xl p-4">
+      <form [formGroup]="form">
+        <input
+          formControlName="searchTerm"
+          class="bg-gray-800 border border-gray-800 shadow-lg rounded-2xl p-4 text-white"
+          type="text"
+          placeholder="Find task"
+        />
+      </form>
+    </div>
+  </div>
+</div>

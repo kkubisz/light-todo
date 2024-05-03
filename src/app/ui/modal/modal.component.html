@@ -5,12 +5,11 @@
   class="fixed top-0 left-0 w-full h-full bg-black opacity-50 z-40"
 ></div>
 
+@if (modalService.modalState) {
 <div
   id="crud-modal"
   tabindex="-1"
-  [ariaHidden]="modalService.modalState"
   class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full flex"
-  [class.hidden]="!modalService.modalState"
 >
   <div class="relative p-4 w-full max-w-md max-h-full">
     <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
@@ -21,7 +20,7 @@
           Add new awesome todo
         </h3>
 
-        {{ task() | json }}
+        {{ taskSignal() | json }}
         <button
           (click)="modalService.closeModal()"
           type="button"
@@ -158,3 +157,4 @@
     </div>
   </div>
 </div>
+}

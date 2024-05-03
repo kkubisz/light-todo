@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnInit, inject } from '@angular/core';
+import { Component, Input, OnInit, inject } from '@angular/core';
 import { TaskListComponent } from '../ui/task-list/task-list.component';
 import {
   GetAllTasksSearchParams,
@@ -107,7 +107,32 @@ export class TaskListPageComponent implements OnInit {
     });
   }
 
-  editTask($event: any): void {
-    console.log($event);
+  editTask($event: any, tasks: Task[]): void {
+    const taskId = $event['taskId'];
+    const data = $event['data'];
+
+    this.tasksService.update(taskId, data).subscribe({
+      next: (response) => {
+        tasks = tasks.map((task) => {
+          if (task.id === response.id) {
+            return response;
+          } else {
+            return task;
+          }
+        });
+
+        this.listState = {
+          state: LIST_STATE_VALUE.SUCCESS,
+          results: tasks,
+        };
+      },
+      error: (error) => {
+        alert(error.message);
+      },
+
+      complete: () => {
+        this.modalSerive.closeModal();
+      },
+    });
   }
 }

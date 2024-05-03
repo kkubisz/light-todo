@@ -78,7 +78,9 @@
           (addTask)="
             listState.state === 'SUCCESS' && addTask($event, listState.results)
           "
-          (editTask)="editTask($event)"
+          (editTask)="
+            listState.state === 'SUCCESS' && editTask($event, listState.results)
+          "
         ></app-modal>
       </div>
 

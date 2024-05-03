@@ -5,9 +5,11 @@ import {
   OnChanges,
   OnInit,
   Output,
+  Signal,
   SimpleChanges,
   computed,
   inject,
+  signal,
 } from '@angular/core';
 import {
   FormControl,
@@ -48,18 +50,20 @@ export class ModalComponent implements OnInit {
 
   modalService = inject(ModalService);
 
-  task = computed(() => this.modalService.task());
+  taskSignal: Signal<Task | null> = signal(null);
+  taskService = this.modalService.task();
 
   @Output() addTask = new EventEmitter<TasksListFiltersFormValue>();
   @Output() addProject = new EventEmitter();
-  @Output() editTask = new EventEmitter<TasksListFiltersFormValue>();
+  @Output() editTask = new EventEmitter<{
+    data: TasksListFiltersFormValue;
+    taskId: number;
+  }>();
 
   //TOOD how to pass properties from task into form like name/description/etc. Neccessary in edit mode
-  taskResult = this.task();
-  name = this.taskResult !== null ? this.taskResult.name : 'test';
 
   form: TasksListFiltersForm = this.formBuilder.group({
-    name: this.formBuilder.control<string>(this.name),
+    name: this.formBuilder.control<string>(''),
     project: this.formBuilder.control<string>(''),
     description: this.formBuilder.control<string>(''),
     projectId: this.formBuilder.control<string>('1'),
@@ -69,15 +73,37 @@ export class ModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllProject();
+
+    this.taskSignal = computed(() => {
+      const task = this.modalService.task();
+      if (task !== null) {
+        this.setFormProperties(task);
+      }
+
+      return task;
+    });
   }
 
   onSubmit(editMode: boolean) {
     if (editMode) {
-      this.editTask.emit(this.form.getRawValue());
+      if (this.modalService.task()) {
+        const taskId = this.modalService.task()?.id;
+
+        if (taskId) {
+          this.editTask.emit({ data: this.form.getRawValue(), taskId: taskId });
+
+          return;
+        }
+      }
     }
     this.addTask.emit(this.form.getRawValue());
   }
 
+  setFormProperties(task: Task) {
+    this.form.controls.name.setValue(task.name);
+    this.form.controls.description.setValue(task.description);
+    this.form.controls.projectId.setValue(task.projectId.toString());
+  }
   addNewProject() {
     const form = this.form.getRawValue();
     const projectName = form.project;

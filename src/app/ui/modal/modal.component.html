@@ -20,7 +20,8 @@
           Add new awesome todo
         </h3>
 
-        {{ taskSignal() | json }}
+        //TOOD how to remove it
+        {{ taskSignal() }}
         <button
           (click)="modalService.closeModal()"
           type="button"
@@ -69,7 +70,7 @@
             />
           </div>
 
-          <div class="grid gap-4 mb-4 grid-cols-2">
+          <div class="grid gap-4 mb-4 col-span-2">
             <div class="col-span-2">
               <h3
                 class="mb-5 text-sm font-medium text-gray-900 dark:text-white"
@@ -98,7 +99,7 @@
                 <ng-icon
                   size="30"
                   data-modal-target="crud-modal"
-                  class="block text-gray-600 hover:cursor-pointer"
+                  class="block text-gray-600 hover:cursor-pointer overflow-visible"
                   name="featherPlusCircle"
                   (click)="addNewProject()"
                 >
@@ -106,9 +107,9 @@
               </div>
             </div>
 
-            <ul class="inline-flex">
+            <ul class="grid grid-cols-12 gap-2">
               @for (item of this.project; track item.id) {
-              <li class="m-1">
+              <li class="col-span-12 sm:col-span-4">
                 <input
                   type="radio"
                   id="{{ item.id }}"

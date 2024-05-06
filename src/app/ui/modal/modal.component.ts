@@ -2,11 +2,9 @@ import { JsonPipe, NgIf } from '@angular/common';
 import {
   Component,
   EventEmitter,
-  OnChanges,
   OnInit,
   Output,
   Signal,
-  SimpleChanges,
   computed,
   inject,
   signal,
@@ -23,7 +21,6 @@ import { Project } from '../../project/model/Project';
 import { ProjectService } from '../../project/data-access/project.service';
 import { ModalService } from '../../utils/modal/modal-service';
 import { Task } from '../../task/model/Task';
-import { LoggerToken } from '@ng-icons/core/lib/providers/features/logger';
 
 type TasksListFiltersForm = FormGroup<{
   name: FormControl<string>;
@@ -51,7 +48,6 @@ export class ModalComponent implements OnInit {
   modalService = inject(ModalService);
 
   taskSignal: Signal<Task | null> = signal(null);
-  taskService = this.modalService.task();
 
   @Output() addTask = new EventEmitter<TasksListFiltersFormValue>();
   @Output() addProject = new EventEmitter();
@@ -59,8 +55,6 @@ export class ModalComponent implements OnInit {
     data: TasksListFiltersFormValue;
     taskId: number;
   }>();
-
-  //TOOD how to pass properties from task into form like name/description/etc. Neccessary in edit mode
 
   form: TasksListFiltersForm = this.formBuilder.group({
     name: this.formBuilder.control<string>(''),
@@ -76,6 +70,7 @@ export class ModalComponent implements OnInit {
 
     this.taskSignal = computed(() => {
       const task = this.modalService.task();
+
       if (task !== null) {
         this.setFormProperties(task);
       }
@@ -92,11 +87,13 @@ export class ModalComponent implements OnInit {
         if (taskId) {
           this.editTask.emit({ data: this.form.getRawValue(), taskId: taskId });
 
+          this.form.reset();
           return;
         }
       }
     }
     this.addTask.emit(this.form.getRawValue());
+    this.form.reset();
   }
 
   setFormProperties(task: Task) {
@@ -111,8 +108,8 @@ export class ModalComponent implements OnInit {
       this.projectService.add(projectName).subscribe({
         next: (response) => {
           this.project.push(response);
-
           this.form.get('projectId')?.setValue(response.id.toString());
+          this.projectService.projectTaskCount.next(response);
         },
         error: (error) => {
           console.log(error);

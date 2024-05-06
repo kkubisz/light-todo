@@ -1,9 +1,7 @@
-import { AfterViewInit, Component, Input } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import { Project } from '../../model/Project';
 import { JsonPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
-
-type taskCountByProjectId = { [projectId: number]: number };
 
 @Component({
   selector: 'app-project-card',
@@ -12,13 +10,12 @@ type taskCountByProjectId = { [projectId: number]: number };
   templateUrl: './project-card.component.html',
   styleUrl: './project-card.component.scss',
 })
-export class ProjectCardComponent implements AfterViewInit {
-  count = 0;
+export class ProjectCardComponent implements OnInit {
   @Input({ required: true }) project!: Project;
 
-  @Input() taskCount!: taskCountByProjectId;
+  @Input() taskCount!: number;
 
-  ngAfterViewInit(): void {
-    this.count = this.taskCount[this.project.id];
+  ngOnInit(): void {
+    this.taskCount;
   }
 }

@@ -25,6 +25,7 @@ import {
   TaskFiltersComponent,
 } from '../ui/task-filters/task-filters.component';
 import { getAllTasksSearchParams } from '../data-access/tasks.filters.adapter';
+import { ProjectService } from '../../project/data-access/project.service';
 
 @Component({
   selector: 'app-task-list-page',
@@ -47,6 +48,7 @@ export class TaskListPageComponent implements OnInit {
   listState: ComponentListState<Task> = { state: 'IDLE' };
   private tasksService = inject(TaskService);
   private modalSerive = inject(ModalService);
+  private projectService = inject(ProjectService);
 
   project: Project[] = [];
   snackBarMessage = '';
@@ -94,12 +96,15 @@ export class TaskListPageComponent implements OnInit {
 
     this.tasksService.add(name, description, +projectId).subscribe({
       next: (task) => {
+        const allTasks = tasks.concat(task);
         this.listState = {
           state: LIST_STATE_VALUE.SUCCESS,
-          results: tasks.concat(task),
+          results: allTasks,
         };
 
         this.modalSerive.closeModal();
+
+        this.projectService.projectChanged.next(allTasks);
       },
       error: (err) => {
         this.snackBarMessage = err.message;
@@ -125,6 +130,8 @@ export class TaskListPageComponent implements OnInit {
           state: LIST_STATE_VALUE.SUCCESS,
           results: tasks,
         };
+
+        this.projectService.projectChanged.next(tasks);
       },
       error: (error) => {
         alert(error.message);

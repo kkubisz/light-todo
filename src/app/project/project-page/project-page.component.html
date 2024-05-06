@@ -5,7 +5,7 @@
 
   <app-project-card
     [project]="item"
-    [taskCount]="this.taskCountByProjectId"
+    [taskCount]="this.taskCountByProjectId[item.id]"
     class="col-span-12 sm:col-span-4"
   ></app-project-card>
   }

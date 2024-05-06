@@ -7,7 +7,9 @@ import { Task } from '../../task/model/Task';
 })
 export class ModalService {
   modalState: boolean = false;
+
   task: WritableSignal<Task | null> = signal(null);
+
   editMode: boolean = false;
 
   $value = this.task.asReadonly();

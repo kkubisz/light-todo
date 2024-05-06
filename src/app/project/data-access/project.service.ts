@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Project } from '../model/Project';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -10,8 +11,11 @@ export class ProjectService {
 
   private http = inject(HttpClient);
 
+  projectChanged = new Subject();
+  projectTaskCount = new Subject();
+
   getAll() {
-    return this.http.get<Project>(`${this.TaskSeriveURL}/projects`);
+    return this.http.get<Project[]>(`${this.TaskSeriveURL}/projects`);
   }
 
   delete(projectId: number) {

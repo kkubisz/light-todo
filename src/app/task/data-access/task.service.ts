@@ -50,19 +50,19 @@ export class TaskService {
   }
 
   getAllByProjectId(projectId: string, searchParams: GetAllTasksSearchParams) {
-    const dupa = this.http.get<Task[]>(`${this.TaskSeriveURL}/tasks`, {
-      observe: 'response',
-      params: { ...searchParams, projectId },
-    });
-
-    return dupa.pipe(
-      tap((response) => {
-        if (response.body) {
-          response.body;
-        } else {
-          null;
-        }
+    return this.http
+      .get<Task[]>(`${this.TaskSeriveURL}/tasks`, {
+        observe: 'response',
+        params: { ...searchParams, projectId },
       })
-    );
+      .pipe(
+        tap((response) => {
+          if (response.body) {
+            response.body;
+          } else {
+            null;
+          }
+        })
+      );
   }
 }

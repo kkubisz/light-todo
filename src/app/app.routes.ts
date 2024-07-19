@@ -5,7 +5,10 @@ export const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    component: TaskListPageComponent,
+    loadComponent: () =>
+      import('./task/task-list-page/task-list-page.component').then(
+        (m) => m.TaskListPageComponent
+      ),
   },
 
   {
@@ -13,12 +16,18 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        component: TaskListPageComponent,
+        loadComponent: () =>
+          import('./task/task-list-page/task-list-page.component').then(
+            (m) => m.TaskListPageComponent
+          ),
       },
       {
         path: ':projectId',
         title: 'test',
-        component: TaskListPageComponent,
+        loadComponent: () =>
+          import('./task/task-list-page/task-list-page.component').then(
+            (m) => m.TaskListPageComponent
+          ),
       },
     ],
   },

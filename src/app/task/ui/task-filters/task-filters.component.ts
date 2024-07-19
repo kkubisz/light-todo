@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Output, inject } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  EventEmitter,
+  Output,
+  inject,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Subscription, debounceTime, startWith } from 'rxjs';
 import {
   FormControl,
@@ -22,6 +29,7 @@ export type TaskFilterValue = ReturnType<TasksListFiltersForm['getRawValue']>;
 })
 export class TaskFiltersComponent {
   private formBuilder = inject(NonNullableFormBuilder);
+  private destroyRef = inject(DestroyRef);
 
   @Output() filtersChange = new EventEmitter<any>();
 
@@ -33,7 +41,11 @@ export class TaskFiltersComponent {
 
   ngOnInit() {
     this.formChangesSubscription = this.form.valueChanges
-      .pipe(startWith(this.form.value), debounceTime(200))
+      .pipe(
+        startWith(this.form.value),
+        debounceTime(200),
+        takeUntilDestroyed(this.destroyRef)
+      )
       .subscribe((value) => {
         this.filtersChange.emit(value);
       });

@@ -4,6 +4,7 @@ import { Task } from '../../model/Task';
 import { TaskService } from '../../data-access/task.service';
 import { SnackbarComponent } from '../../../ui/snackbar/snackbar.component';
 import { ModalComponent } from '../../../ui/modal/modal.component';
+import { catchError, map, of } from 'rxjs';
 
 @Component({
   selector: 'app-task-list',
@@ -20,21 +21,22 @@ export class TaskListComponent {
 
   snackBarMessage = '';
 
-  updateTask(taskId: number, updatedTask: any) {
-    this.tasksService.update(taskId, updatedTask).subscribe({
-      next: (response) => {
-        this.tasks = this.tasks.map((task) => {
-          if (task.id === response.id) {
-            return response;
-          } else {
-            return task;
-          }
-        });
-      },
-      error: (error) => {
-        alert(error.message);
-      },
-    });
+  updateTask(taskId: number, updatedTask: Task) {
+    this.tasksService
+      .update(taskId, updatedTask)
+      .pipe(
+        map((response) => {
+          this.tasks = this.tasks.map((task) => {
+            return task.id === response.id ? response : task;
+          });
+          return response;
+        }),
+        catchError((error) => {
+          alert(error.message);
+          return of(null);
+        })
+      )
+      .subscribe();
   }
 
   removeTask(taskId: number) {

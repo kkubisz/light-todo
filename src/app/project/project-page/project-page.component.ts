@@ -1,10 +1,11 @@
-import { Component, Input, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, DestroyRef, inject, Input, OnInit } from '@angular/core';
 import { ProjectService } from '../data-access/project.service';
 import { Project } from '../model/Project';
 import { ProjectCardComponent } from '../ui/project-card/project-card.component';
 import { Task } from '../../task/model/Task';
-import { Subscription } from 'rxjs';
-import { JsonPipe } from '@angular/common';
+import { catchError, filter, Observable, of, Subscription, tap } from 'rxjs';
+import { AsyncPipe, JsonPipe } from '@angular/common';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-project-page',
@@ -13,17 +14,15 @@ import { JsonPipe } from '@angular/common';
   templateUrl: './project-page.component.html',
   styleUrl: './project-page.component.scss',
 })
-export class ProjectPageComponent implements OnInit, OnDestroy {
+export class ProjectPageComponent implements OnInit {
   @Input({ required: true }) tasks!: Task[];
 
   private projectService = inject(ProjectService);
-
-  count: number = 0;
+  private destroyRef = inject(DestroyRef);
 
   project: Project[] = [];
 
-  sub!: Subscription;
-  projectSubscription!: Subscription;
+  project$ = this.getAllProjects();
 
   taskCountByProjectId: { [projectId: number]: number } = {};
 
@@ -45,21 +44,25 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
 
     this.getProjectCount(this.tasks);
 
-    this.sub = this.projectService.projectChanged.subscribe({
-      next: (tasks: any) => {
-        this.tasks = tasks;
-        this.getProjectCount(tasks);
-      },
-    });
+    this.projectService.projectChanged
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (tasks: any) => {
+          this.tasks = tasks;
+          this.getProjectCount(tasks);
+        },
+      });
 
-    this.projectSubscription = this.projectService.projectTaskCount.subscribe({
-      next: (project: any) => {
-        this.project.push(project);
-      },
-      error: (err) => {
-        console.log(err);
-      },
-    });
+    this.projectService.projectTaskCount
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (project: any) => {
+          this.project.push(project);
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      });
   }
 
   getProjectCount(tasks: Task[]) {
@@ -75,10 +78,5 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
 
   resetTaskCountByProjectId() {
     this.taskCountByProjectId = {};
-  }
-
-  ngOnDestroy(): void {
-    this.sub.unsubscribe();
-    this.projectSubscription.unsubscribe();
   }
 }

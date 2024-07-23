@@ -1,9 +1,12 @@
-import { Component, Input, OnInit, inject } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { TaskCardComponent } from '../task-card/task-card.component';
 import { Task } from '../../model/Task';
 import { TaskService } from '../../data-access/task.service';
 import { SnackbarComponent } from '../../../ui/snackbar/snackbar.component';
-import { ModalComponent } from '../../../ui/modal/modal.component';
+import {
+  ModalComponent,
+  TasksListFiltersFormValue,
+} from '../../../ui/modal/modal.component';
 import { catchError, map, of } from 'rxjs';
 
 @Component({
@@ -21,7 +24,7 @@ export class TaskListComponent {
 
   snackBarMessage = '';
 
-  updateTask(taskId: number, updatedTask: Task) {
+  updateTask(taskId: number, updatedTask: TasksListFiltersFormValue) {
     this.tasksService
       .update(taskId, updatedTask)
       .pipe(
@@ -41,7 +44,7 @@ export class TaskListComponent {
 
   removeTask(taskId: number) {
     this.tasksService.delete(taskId).subscribe({
-      next: (response) => {
+      next: () => {
         this.tasks = this.tasks.filter((task) => task.id !== taskId);
         this.snackBarMessage = 'Task has been remove';
       },

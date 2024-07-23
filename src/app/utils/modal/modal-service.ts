@@ -1,9 +1,9 @@
 // modal.service.ts
-import { Injectable, WritableSignal, signal } from '@angular/core';
-import { Task } from '../../task/model/Task';
+import { Injectable, WritableSignal, signal } from "@angular/core";
+import { Task } from "../../task/model/Task";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class ModalService {
   modalState: boolean = false;

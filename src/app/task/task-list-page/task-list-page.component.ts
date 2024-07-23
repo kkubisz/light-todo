@@ -52,7 +52,6 @@ export class TaskListPageComponent implements OnInit {
 
   project: Project[] = [];
   snackBarMessage = '';
-  activatedRoute: any;
 
   ngOnInit() {
     this.listState = { state: 'LOADING' };
@@ -112,7 +111,10 @@ export class TaskListPageComponent implements OnInit {
     });
   }
 
-  editTask($event: any, tasks: Task[]): void {
+  editTask(
+    $event: { taskId: number; data: TasksListFiltersFormValue },
+    tasks: Task[]
+  ): void {
     const taskId = $event['taskId'];
     const data = $event['data'];
 

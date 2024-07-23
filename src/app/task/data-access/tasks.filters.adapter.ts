@@ -4,7 +4,7 @@ import { GetAllTasksSearchParams } from './task.service';
 export function getAllTasksSearchParams(
   formValue: TaskFilterValue
 ): GetAllTasksSearchParams {
-  let searchParams = {
+  const searchParams = {
     q: formValue.searchTerm,
   } as GetAllTasksSearchParams;
 

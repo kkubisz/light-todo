@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Task } from '../model/Task';
-import { tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
+import { TasksListFiltersFormValue } from '../../ui/modal/modal.component';
 
 export type TaskUpdatePayload = {
   done?: boolean;
@@ -21,25 +22,27 @@ export class TaskService {
 
   private http = inject(HttpClient);
 
-  getAll(searchParams: GetAllTasksSearchParams) {
+  getAll(
+    searchParams: GetAllTasksSearchParams
+  ): Observable<HttpResponse<Task[]>> {
     return this.http.get<Task[]>(`${this.TaskSeriveURL}/tasks`, {
       observe: 'response',
       params: searchParams,
     });
   }
 
-  delete(taskId: number) {
+  delete(taskId: number): Observable<object> {
     return this.http.delete(`${this.TaskSeriveURL}/tasks/${taskId}`);
   }
 
-  update(taskId: number, payload: any) {
+  update(taskId: number, payload: TasksListFiltersFormValue): Observable<Task> {
     return this.http.patch<Task>(
       `${this.TaskSeriveURL}/tasks/${taskId}`,
       payload
     );
   }
 
-  add(name: string, description: string, projectId: number) {
+  add(name: string, description: string, projectId: number): Observable<Task> {
     return this.http.post<Task>(`${this.TaskSeriveURL}/tasks`, {
       name,
       description,
@@ -49,7 +52,10 @@ export class TaskService {
     });
   }
 
-  getAllByProjectId(projectId: string, searchParams: GetAllTasksSearchParams) {
+  getAllByProjectId(
+    projectId: string,
+    searchParams: GetAllTasksSearchParams
+  ): Observable<HttpResponse<Task[]>> {
     return this.http
       .get<Task[]>(`${this.TaskSeriveURL}/tasks`, {
         observe: 'response',

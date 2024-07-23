@@ -6,7 +6,7 @@ import {
   inject,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Subscription, debounceTime, startWith } from 'rxjs';
+import { debounceTime, startWith } from 'rxjs';
 import {
   FormControl,
   FormGroup,
@@ -31,27 +31,21 @@ export class TaskFiltersComponent {
   private formBuilder = inject(NonNullableFormBuilder);
   private destroyRef = inject(DestroyRef);
 
-  @Output() filtersChange = new EventEmitter<any>();
+  @Output() filtersChange = new EventEmitter<TaskFilterValue>();
 
   form: TasksListFiltersForm = this.formBuilder.group({
     searchTerm: this.formBuilder.control<string>(''),
   });
 
-  private formChangesSubscription?: Subscription;
-
   ngOnInit() {
-    this.formChangesSubscription = this.form.valueChanges
+    this.form.valueChanges
       .pipe(
         startWith(this.form.value),
         debounceTime(200),
         takeUntilDestroyed(this.destroyRef)
       )
-      .subscribe((value) => {
-        this.filtersChange.emit(value);
+      .subscribe(() => {
+        this.filtersChange.emit(this.form.getRawValue());
       });
-  }
-
-  ngOnDestroy() {
-    this.formChangesSubscription?.unsubscribe();
   }
 }

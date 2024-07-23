@@ -11,31 +11,6 @@
       "createdAt": 1700291084476,
       "updatedAt": null,
       "id": 2
-    },
-    {
-      "name": "test",
-      "createdAt": 1713869783133,
-      "id": 3
-    },
-    {
-      "name": "new one",
-      "createdAt": 1714994936768,
-      "id": 4
-    },
-    {
-      "name": "krakow",
-      "createdAt": 1715023248970,
-      "id": 5
-    },
-    {
-      "name": "krakow",
-      "createdAt": 1715023249362,
-      "id": 6
-    },
-    {
-      "name": "test",
-      "createdAt": 1715241110913,
-      "id": 7
     }
   ],
   "tasks": [
@@ -50,28 +25,6 @@
       "description": "asda112312"
     },
     {
-      "id": 2,
-      "projectId": "1",
-      "name": "Learn components and more stuff",
-      "done": false,
-      "createdAt": 1693042949144,
-      "updatedAt": 1701512662476,
-      "urgent": true,
-      "project": "",
-      "description": "zx"
-    },
-    {
-      "createdAt": 1695467694663,
-      "projectId": "5",
-      "name": "Learn pipesxzz",
-      "done": false,
-      "id": 3,
-      "updatedAt": 1697746460414,
-      "urgent": true,
-      "project": "",
-      "description": "121"
-    },
-    {
       "name": "Learn forms",
       "projectId": "2",
       "done": false,
@@ -80,37 +33,6 @@
       "updatedAt": 1697883806405,
       "project": "",
       "description": "te"
-    },
-    {
-      "name": "Feed your dog",
-      "projectId": "1",
-      "done": true,
-      "createdAt": 1697281836095,
-      "updatedAt": 1702732986260,
-      "id": 5,
-      "urgent": false,
-      "project": ""
-    },
-    {
-      "name": "Plank for 2 minutes 💪",
-      "projectId": "1",
-      "done": false,
-      "createdAt": 1697886596823,
-      "updatedAt": 1702732739100,
-      "id": 6,
-      "urgent": true,
-      "project": "",
-      "description": "asd"
-    },
-    {
-      "name": "Buy flowers 💐 and wine",
-      "projectId": "2",
-      "createdAt": 1700292845327,
-      "updatedAt": 1702732728142,
-      "done": true,
-      "id": 7,
-      "urgent": true,
-      "project": ""
     }
   ]
 }

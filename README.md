@@ -1,27 +1,52 @@
-# TodoV2
+# Todo List
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.2.1.
+## Description
 
-## Development server
+The "Todo List" project is a simple and functional task manager that allows users to add, edit, and delete tasks. The application is built using Angular for the frontend and JSON-Server for the backend.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Requirements
 
-## Code scaffolding
+- npm (recommended version: 6.x or newer)
+- Angular CLI (recommended version: 12.x or newer)
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Installation
 
-## Build
+1. Clone the repository:
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+2. Navigate to the project directory:
 
-## Running unit tests
+   ```bash
+   cd todo-list
+   ```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+3. Install dependencies:
 
-## Running end-to-end tests
+   ```bash
+   npm install
+   ```
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+## Running the application locally
 
-## Further help
+1. Start the frontend using Angular CLI:
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+   ```bash
+   ng serve
+   ```
+
+2. In a new terminal, start JSON-Server:
+
+   ```bash
+   npm run api
+   ```
+
+3. Open your browser and go to [http://localhost:4200](http://localhost:4200) to see the application.
+
+## npm Scripts
+
+- `ng serve` - starts the Angular application in development mode
+- `npm run api` - starts JSON-Server, which serves as the application's backend
+
+## Screenshots
+
+![Screenshot1](src/assets/screenshots/general.png)
+![Screenshot2](src/assets/screenshots/edit.png)

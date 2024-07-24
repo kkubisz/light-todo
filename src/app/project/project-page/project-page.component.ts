@@ -3,8 +3,7 @@ import { ProjectService } from '../data-access/project.service';
 import { Project } from '../model/Project';
 import { ProjectCardComponent } from '../ui/project-card/project-card.component';
 import { Task } from '../../task/model/Task';
-import { catchError, filter, Observable, of, Subscription, tap } from 'rxjs';
-import { AsyncPipe, JsonPipe } from '@angular/common';
+import { JsonPipe } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
@@ -47,7 +46,7 @@ export class ProjectPageComponent implements OnInit {
     this.projectService.projectChanged
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (tasks: any) => {
+        next: (tasks: Task[]) => {
           this.tasks = tasks;
           this.getProjectCount(tasks);
         },
@@ -56,7 +55,10 @@ export class ProjectPageComponent implements OnInit {
     this.projectService.projectTaskCount
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (project: any) => {
+        next: (project: Project) => {
+          console.log(project);
+          console.log('ddasd');
+
           this.project.push(project);
         },
         error: (err) => {

@@ -7,8 +7,7 @@ The "Todo List" project is a simple and functional task manager that allows user
 ## Requirements
 
 - Node.js (recommended version: 18.x or newer)
-- npm (recommended version: 6.x or newer)
-- Angular CLI (recommended version: 12.x or newer)
+- Angular CLI (recommended version: 17.x or newer)
 
 ## Installation
 
